@@ -1,16 +1,18 @@
-# Human-readable build log
+# Development record and handoff
 
-This is a build narrative, not an exported provider-usage transcript or a fabricated harness session.
+This account restates the recorded build history and measurements. The documentation refresh did not repeat those experiments or change the finished program. It is a readable log, not a recorded harness transcript.
 
-1. Read the kit rules, source notice, Python starter, competition configuration and practice case structure. Confirmed sparse hourly observations, first-hour anchoring, log pinball scoring, offline limits and transcript obligations.
-2. Wrote main.py version 1 in an assistant write message. Extracted launch-day hours by UTC offsets, skipped missing observations and non-launch GTA VI history, excluded the target by name, computed empirical log-ratio quantiles, and smoothed across neighbours. Added sparse-sample fallback, positive rounding and output limits.
-3. Wrote the external validation script. Built 37 synthetic cases, removed each target from its comparables and stripped target history. Executed the model and starter over identical inputs. Scored 851 hours: version 1 loss 0.713034 versus baseline 0.929650; typical miss 186.91% versus 213.32%; coverage 86.37% versus 62.40%. Four practice cases produced valid, byte-identical outputs across two executions.
-4. In a separate later assistant message, revised main.py to use 2.5/97.5 empirical tail percentiles while preserving quartiles and medians. Motivation: first-version coverage was below nominal and late-unlock launches exceeded the upper tail. Full rerun: revised loss 0.715832 versus 0.929650; typical miss 186.91% versus 213.32%; coverage 91.07% versus 62.40%. Accepted the small pinball cost for better coverage; no claim that revision improved loss. All practice outputs remained valid and byte-identical. Runtime 0.093–0.096 seconds/case on local Python 3.12.3, not the grader's 3.13.
-5. Copied starter/LICENSE verbatim and wrote README.md with exact badges, usage, results and limitations.
+1. **Establish the requirements.** The build began by reading the kit rules and starter implementation, including the case format, hour-1 anchor, scoring rules and offline execution requirements.
+2. **Implement the initial forecast.** Version 1 of `main.py` assigned observations to launch hours using UTC offsets from the day start. It skipped missing observations and non-launch GTA VI history, and removed the target game by name. Comparable launches supplied empirical log-ratio quantiles, which were smoothed across neighbouring hours. Sparse samples received a fallback, and output handling enforced positive rounding and the required limits.
+3. **Prepare an independent validation harness.** An external script constructed 37 synthetic leave-one-out cases. Each launch became the target in turn, with its own curve removed from the comparables. The model and starter received identical cases, providing 851 scored hours.
+4. **Measure version 1.** Mean log pinball loss was 0.713034, typical miss was 186.91%, and 90% coverage was 86.37%. The starter baseline scored 0.929650 / 213.32% / 62.40% for the same three measures. Coverage fell below nominal, and late-unlock launches extended beyond the estimated upper tail.
+5. **Adjust the tails in a later implementation step.** `main.py` was revised to estimate empirical tails at the 2.5/97.5 percentiles instead of 5/95. Quartiles and medians retained their original percentile levels. The change addressed the observed coverage shortfall.
+6. **Rerun the full comparison.** Revised loss was 0.715832, typical miss was 186.91%, and coverage was 91.07%; the baseline remained 0.929650 / 213.32% / 62.40%. The small pinball cost was accepted in exchange for better coverage.
+7. **Check practice execution.** All four real practice cases produced schema-valid outputs that were byte-identical across two runs. Recorded runtime was 0.093-0.096 seconds per case on local Python 3.12.3, not the grader's Python 3.13.
 
-## Revised per-launch loss
+The following measurements break down mean log pinball loss by held-out launch after the tail revision. There are 37 launches; the comparison column uses the starter baseline.
 
-| Launch | Model loss | Baseline loss |
+| Held-out launch | Revised loss | Starter loss |
 |---|---:|---:|
 | 007 First Light | 0.431939 | 0.348392 |
 | ARC Raiders | 2.100928 | 3.376581 |
@@ -50,7 +52,4 @@ This is a build narrative, not an exported provider-usage transcript or a fabric
 | The Last of Us Part II | 0.346799 | 0.246974 |
 | The Legend of Zelda: Tears of the Kingdom | 0.303233 | 0.308675 |
 
-
-## Handoff
-
-Only main.py, LICENSE, README.md and this log belong in the repository. Validation artifacts are outside it. No network calls, purchases, credential access, GitHub creation, submissions or makefun bundle/check/submit commands were used. No real practice answers were accessed. Final-house-AI performance is unknown. Preserve genuine recorded harness transcripts and the required run record separately; this narrative alone does not satisfy that gate. Session timestamps must satisfy the opening window; no timestamps or usage have been invented here.
+For the submitter: the repository should contain only `main.py`, `LICENSE`, `README.md` and this log. Validation artifacts live outside it. No network calls, purchases, credentials, GitHub creation, submissions or makefun bundle/check/submit commands were used. No real practice answers were accessed, so performance against the final house AI remains unknown. Keep the genuine recorded harness transcripts separately; this rewritten account does not replace them.
